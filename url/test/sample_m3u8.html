@@ -1,0 +1,89 @@
+<html>
+<head>
+  <title>Example minimum receiver</title>
+  <script src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
+    <style>
+      body {
+        font-family: "Droid Serif", serif;
+        color: #444;
+        line-height: 150%;
+        border: 0px;
+        margin: 0px;
+        width: 100%;
+        height: 100%;
+        overflow: hidden !important;
+      }
+      video {
+        width: 100%;
+        height: 100%;
+        margin: auto auto;
+        overflow: hidden !important;
+      }
+    </style>
+</head>
+<body background="images/home_lavender.jpg">
+    <div id="ambience">
+      <video id='media'>
+        <source src="http://devimages.apple.com/iphone/samples/bipbop/bipbopall.m3u8">
+      </video>
+    </div>
+    <canvas id="scratch"></canvas>
+  <script>
+    window.onload = function() {
+      initCanvas();
+      window.mediaElement = document.getElementById('media');
+      window.mediaManager = new cast.receiver.MediaManager(window.mediaElement);
+      window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
+      window.castReceiverManager.start();
+    }
+    var sctxt, video, ambience;
+    function initCanvas() {
+      ambience = document.getElementById("ambience");
+      video = document.getElementsByTagName("video")[0];
+      scratch = document.getElementById("scratch");
+      sctxt = scratch.getContext("2d");
+      video.addEventListener("play", paintAmbience, false);
+      video.addEventListener("loadedmetadata", paintAmbience, false);
+    }
+
+    function paintAmbience() {
+      if (video.loadedmetadata) {
+        ambience.style.backgroundColor = 'rgba(255, 255, 255, 255)';
+        return;
+      }
+      if (video.ended) {
+        ambience.style.backgroundColor = 'rgba(255, 255, 255, 0)';
+        return;
+      }
+      // set up scratch frame
+      sctxt.drawImage(video, 0, 0, 320, 160);
+      frame = sctxt.getImageData(0, 0, 320, 160);
+      // get average color for frame and transition to it
+      color = getColorAvg(frame);
+      ambience.style.backgroundColor = 'rgb('+color[0]+','+color[1]+','+color[2]+')';
+      if (video.paused) {
+        return;
+      }
+      // don't do it more often than once a second
+      setTimeout(function () {
+          paintAmbience();
+      }, 1000);
+    }
+    function getColorAvg(frame) {
+      r = 0;
+      g = 0;
+      b = 0;
+      // calculate average color from image in canvas
+      for (var i = 0; i < frame.data.length; i += 4) {
+        r += frame.data[i];
+        g += frame.data[i + 1];
+        b += frame.data[i + 2];
+      }
+      r = Math.ceil(r / (frame.data.length / 4));
+      g = Math.ceil(g / (frame.data.length / 4));
+      b = Math.ceil(b / (frame.data.length / 4));
+      return Array(r, g, b);
+    }
+  </script>
+</body>
+</html>
