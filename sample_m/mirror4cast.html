@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mirror for chromecast - Mirror4cast</title>
+        <link rel="stylesheet" href="include/base.css" title="plain">
+    <style>
+      body {
+        background-size:100% 100%;
+        font-family: Verdana, Geneva, sans-serif;
+        color: #444;
+        line-height: 150%;
+        border: 0px;
+        margin: 0px;
+        width: 100%;
+        height: 100%;
+        overflow: hidden !important;
+      }
+      canvas {
+        height:100%;
+      }
+    </style>
+        <script src="include/mirror4cast.js"></script>
+    </head>
+
+    <body background="images/home_narcissus.jpg" style="margin: 0px;">
+        <div id="mirror4cast_screen">
+            <canvas id="mirror4cast_canvas" width="640px" height="20px" align="center">
+                Canvas not supported.
+            </canvas>
+        </div>
+        <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
+        <script>
+        /*jslint white: false */
+        /*global window, $, Util, CORBA, */
+
+        var corba;
+
+        function GoOn(){
+            document.getElementById('mirror4cast_screen').style.backgroundColor="rgba(0,0,0,0.618)";
+            corba.connect("192.168.1.3", "10301", "", "");
+        };
+        function DownIt(){
+            document.getElementById('mirror4cast_screen').style.backgroundColor="rgba(0,0,0,0)";
+            corba.disconnect();
+        };
+      window.onload = function() {
+        corba = new CORBA({'target':       $D('mirror4cast_canvas'),
+                       'encrypt':      WebUtil.getQueryVar('encrypt', false)});
+        cast.receiver.logger.setLevelValue(0);
+        window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
+        console.log('Starting Receiver Manager');
+        
+        // handler for the 'ready' event
+        castReceiverManager.onReady = function(event) {
+          console.log('Received Ready event: ' + JSON.stringify(event.data));
+          window.castReceiverManager.setApplicationState("Application status is ready...");
+        };
+        
+        // handler for 'senderconnected' event
+        castReceiverManager.onSenderConnected = function(event) {
+          console.log('Received Sender Connected event: ' + event.data);
+          console.log(window.castReceiverManager.getSender(event.data).userAgent);
+        };
+        
+        // handler for 'senderdisconnected' event
+        castReceiverManager.onSenderDisconnected = function(event) {
+          console.log('Received Sender Disconnected event: ' + event.data);
+          if (window.castReceiverManager.getSenders().length == 0) {
+	        window.close();
+	      }
+        };
+        
+        // handler for 'systemvolumechanged' event
+        castReceiverManager.onSystemVolumeChanged = function(event) {
+          console.log('Received System Volume Changed event: ' + event.data['level'] + ' ' +
+              event.data['muted']);
+        };
+
+        // create a CastMessageBus to handle messages for a custom namespace
+        window.messageBus =
+          window.castReceiverManager.getCastMessageBus(
+              'urn:x-cast:org.libmirror4cast.app');
+
+        // handler for the CastMessageBus message event
+        window.messageBus.onMessage = function(event) {
+          console.log('Message [' + event.senderId + ']: ' + event.data);
+          // display the message from the sender
+          displayText(event.data);
+          var mydata = event.data;
+          var msg = mydata.split(':');
+          if(msg[0]=="xmpp" && msg[3] == "connect") {
+            document.getElementById('mirror4cast_screen').style.backgroundColor="rgba(0,0,0,0.618)";            
+            corba.connect(msg[4], msg[5], "", "");
+          }
+          if(msg[0]=="xmpp" && msg[3] == "disconnect") {
+            document.getElementById('mirror4cast_screen').style.backgroundColor="rgba(0,0,0,0)";            
+            corba.disconnect();
+          }
+          // inform all senders on the CastMessageBus of the incoming message event
+          // sender message listener will be invoked
+          window.messageBus.send(event.senderId, event.data);
+        }
+
+        // initialize the CastReceiverManager with an application status message
+        window.castReceiverManager.start({statusText: "Application is starting"});
+        console.log('Receiver Manager started');
+      };
+      //setTimeout("GoOn()",1000);
+      //setTimeout("DownIt()",10000);
+      // utility function to display the text message in the input field
+      function displayText(text) {
+        console.log(text);
+        //document.getElementById("message").innerHTML=text;
+        window.castReceiverManager.setApplicationState(text);
+      };
+        </script>
+    </body>
+</html>
+

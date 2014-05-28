@@ -1,0 +1,396 @@
+body {
+  margin:0;
+  padding:0;
+  font-family: Helvetica;
+  /*Background image with light grey curve.*/
+  background-color:#494949;
+  background-repeat:no-repeat;
+  background-position:right bottom;
+  height:100%;
+}
+
+html {
+  height:100%;
+}
+
+#mirror4cast_controls ul {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+#mirror4cast_controls li {
+  padding-bottom:8px;
+}
+
+#mirror4cast_host {
+  width:150px;
+}
+#mirror4cast_port {
+  width: 80px;
+}
+#mirror4cast_password {
+  width: 150px;
+}
+#mirror4cast_encrypt {
+}
+#mirror4cast_connectTimeout {
+  width: 30px;
+}
+#mirror4cast_path {
+  width: 100px;
+}
+#mirror4cast_connect_button {
+  width: 110px;
+  float:right;
+}
+
+
+#mirror4cast_view_drag_button {
+  display: none;
+}
+#sendCtrlAltDelButton {
+  display: none;
+}
+#mirror4cast_mobile_buttons {
+  display: none;
+}
+
+.mirror4cast-buttons-left {
+  float: left;
+  padding-left:10px;
+  padding-top:4px;
+}
+
+.mirror4cast-buttons-right {
+  float:right;
+  right: 0px;
+  padding-right:10px;
+  padding-top:4px;
+}
+
+#mirror4cast_status_bar {
+  margin-top: 0px;
+  padding: 0px;
+}
+
+#mirror4cast_status_bar div {
+  font-size: 12px;
+  padding-top: 4px;
+  width:100%;
+}
+
+#mirror4cast_status {
+  height:20px;
+  text-align: center;
+}
+#mirror4cast_settings_menu {
+  margin: 3px;
+  text-align: left;
+}
+#mirror4cast_settings_menu ul {
+  list-style: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+#mirror4cast_apply {
+  float:right;
+}
+
+.mirror4cast_status_normal {
+  background: #eee;
+}
+.mirror4cast_status_error {
+  background: #f44;
+}
+.mirror4cast_status_warn {
+  background: #ff4;
+}
+
+/* Do not set width/height for mirror4cast_screen or mirror4cast_canvas or incorrect
+ * scaling will occur. Canvas resizes to remote mirror4cast settings */
+#mirror4cast_screen_pad {
+  margin: 0px;
+  padding: 0px;
+  height: 44px;
+}
+#mirror4cast_screen {
+  text-align: center;
+  display: table;
+  width:100%;
+  height:100%;
+  /*border-top-left-radius: 800px 600px;*/
+}
+
+#mirror4cast_container, #mirror4cast_canvas {
+  margin: 0px;
+  padding: 0px;
+}
+
+#mirror4cast_canvas {
+  left: 0px;
+}
+
+#mirror4cast_clipboard_clear_button {
+  float:right;
+}
+#mirror4cast_clipboard_text {
+  font-size: 11px;
+}
+
+#mirror4cast_clipboard_clear_button {
+  float:right;
+}
+
+/*Bubble contents divs*/
+#mirror4cast_settings {
+  display:none;
+  margin-top:77px;
+  right:20px;
+  position:fixed;
+}
+
+#mirror4cast_controls {
+  display:none;
+  margin-top:77px;
+  right:12px;
+  position:fixed;
+}
+#mirror4cast_controls.top:after  {
+  right:15px;
+}
+
+#mirror4cast_description {
+  display:none;
+  position:fixed;
+
+  margin-top:77px;
+  right:20px;
+  left:20px;
+  padding:15px;
+  color:#000;
+  background:#eee; /* default background for browsers without gradient support */
+
+  border:2px solid #E0E0E0;
+  -webkit-border-radius:10px;
+  -moz-border-radius:10px;
+  border-radius:10px;
+}
+
+#mirror4cast_clipboard {
+  display:none;
+  margin-top:77px;
+  right:30px;
+  position:fixed;
+}
+#mirror4cast_clipboard.top:after {
+  right:85px;
+}
+
+#keyboardinput {
+  width:1px;
+  height:1px;
+  background-color:#fff;
+  color:#fff;
+  border:0;
+  position: relative;
+  left: -40px;
+  z-index: -1;
+}
+
+.mirror4cast_status_warn {
+  background-color:yellow;
+}
+
+/*
+ * Advanced Styling
+ */
+
+/* Control bar */
+#mirror4cast-control-bar {
+  position:fixed;
+  background: #b2bdcd; /* Old browsers */
+  background: -moz-linear-gradient(top, #b2bdcd 0%, #899cb3 49%, #7e93af 51%, #6e84a3 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b2bdcd), color-stop(49%,#899cb3), color-stop(51%,#7e93af), color-stop(100%,#6e84a3)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #b2bdcd 0%,#899cb3 49%,#7e93af 51%,#6e84a3 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #b2bdcd 0%,#899cb3 49%,#7e93af 51%,#6e84a3 100%); /* Opera11.10+ */
+  background: -ms-linear-gradient(top, #b2bdcd 0%,#899cb3 49%,#7e93af 51%,#6e84a3 100%); /* IE10+ */
+  background: linear-gradient(top, #b2bdcd 0%,#899cb3 49%,#7e93af 51%,#6e84a3 100%); /* W3C */
+
+  display:block;
+  height:44px;
+  left:0;
+  top:0;
+  width:100%;
+  z-index:200;
+}
+
+.mirror4cast_status_button {
+  padding: 4px 4px;
+  vertical-align: middle;
+  border:1px solid #869dbc;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  border-radius: 6px;
+  background: #b2bdcd; /* Old browsers */
+  background: -moz-linear-gradient(top, #b2bdcd 0%, #899cb3 49%, #7e93af 51%, #6e84a3 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#b2bdcd), color-stop(49%,#899cb3), color-stop(51%,#7e93af), color-stop(100%,#6e84a3)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #b2bdcd 0%,#899cb3 49%,#7e93af 51%,#6e84a3 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #b2bdcd 0%,#899cb3 49%,#7e93af 51%,#6e84a3 100%); /* Opera11.10+ */
+  background: -ms-linear-gradient(top, #b2bdcd 0%,#899cb3 49%,#7e93af 51%,#6e84a3 100%); /* IE10+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b2bdcd', endColorstr='#6e84a3',GradientType=0 ); /* IE6-9 */
+  background: linear-gradient(top, #b2bdcd 0%,#899cb3 49%,#7e93af 51%,#6e84a3 100%); /* W3C */
+  /*box-shadow:inset 0.4px 0.4px 0.4px #000000;*/
+}
+
+.mirror4cast_status_button_selected {
+  padding: 4px 4px;
+  vertical-align: middle;
+  border:1px solid #4366a9;
+  -webkit-border-radius: 6px;
+  -moz-border-radius: 6px;
+  background: #779ced; /* Old browsers */
+  background: -moz-linear-gradient(top, #779ced 0%, #3970e0 49%, #2160dd 51%, #2463df 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#779ced), color-stop(49%,#3970e0), color-stop(51%,#2160dd), color-stop(100%,#2463df)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, #779ced 0%,#3970e0 49%,#2160dd 51%,#2463df 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, #779ced 0%,#3970e0 49%,#2160dd 51%,#2463df 100%); /* Opera11.10+ */
+  background: -ms-linear-gradient(top, #779ced 0%,#3970e0 49%,#2160dd 51%,#2463df 100%); /* IE10+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#779ced', endColorstr='#2463df',GradientType=0 ); /* IE6-9 */
+  background: linear-gradient(top, #779ced 0%,#3970e0 49%,#2160dd 51%,#2463df 100%); /* W3C */
+ /*box-shadow:inset 0.4px 0.4px 0.4px #000000;*/
+}
+
+
+/*Settings Bubble*/
+.triangle-right {
+  position:relative;
+  padding:15px;
+  margin:1em 0 3em;
+  color:#fff;
+  background:#fff; /* default background for browsers without gradient support */
+  /* css3 */
+  /*background:-webkit-gradient(linear, 0 0, 0 100%, from(#2e88c4), to(#075698));
+  background:-moz-linear-gradient(#2e88c4, #075698);
+  background:-o-linear-gradient(#2e88c4, #075698);
+  background:linear-gradient(#2e88c4, #075698);*/
+  -webkit-border-radius:10px;
+  -moz-border-radius:10px;
+  border-radius:10px;
+  color:#000;
+  border:2px solid #E0E0E0;
+}
+
+.triangle-right.top:after {
+  border-color: transparent #E0E0E0;
+  border-width: 20px 20px 0 0;
+  bottom: auto;
+  left: auto;
+  right: 50px;
+  top: -20px;
+}
+
+.triangle-right:after {
+  content:"";
+  position:absolute;
+  bottom:-20px; /* value = - border-top-width - border-bottom-width */
+  left:50px; /* controls horizontal position */
+  border-width:20px 0 0 20px; /* vary these values to change the angle of the vertex */
+  border-style:solid;
+  border-color:#E0E0E0 transparent;
+  /* reduce the damage in FF3.0 */
+  display:block;
+  width:0;
+}
+
+.triangle-right.top:after {
+  top:-40px; /* value = - border-top-width - border-bottom-width */
+  right:50px; /* controls horizontal position */
+  bottom:auto;
+  left:auto;
+  border-width:40px 40px 0 0; /* vary these values to change the angle of the vertex */
+  border-color:transparent #E0E0E0;
+}
+
+/*Default mirror4cast logo.*/
+/* From: http://fonts.googleapis.com/css?family=Orbitron:700 */
+@font-face {
+  font-family: 'Orbitron';
+  font-style: normal;
+  font-weight: 700;
+  src: local('?'), url('Orbitron700.woff') format('woff'),
+                   url('Orbitron700.ttf') format('truetype');
+}
+
+#mirror4cast_logo {
+  margin-top: 170px;
+  margin-left: 10px;
+  color:yellow;
+  text-align:left;
+  font-family: 'Orbitron', 'OrbitronTTF', sans-serif;
+  line-height:90%;
+  text-shadow:
+       5px 5px 0 #000,
+      -1px -1px 0 #000,
+       1px -1px 0 #000,
+      -1px 1px 0 #000,
+       1px 1px 0 #000;
+}
+
+
+#mirror4cast_logo span{
+  color:green;
+}
+
+/* ----------------------------------------
+ * Media sizing
+ * ----------------------------------------
+ */
+
+
+.mirror4cast_status_button {
+  font-size: 12px;
+}
+
+#mirror4cast_clipboard_text {
+  width: 500px;
+}
+
+#mirror4cast_logo {
+  font-size: 180px;
+}
+
+@media screen and (min-width: 481px) and (max-width: 640px) {
+  .mirror4cast_status_button {
+    font-size: 10px;
+  }
+  #mirror4cast_clipboard_text {
+    width: 410px;
+  }
+  #mirror4cast_logo {
+    font-size: 150px;
+  }
+}
+
+@media screen and (min-width: 321px) and (max-width: 480px) {
+  .mirror4cast_status_button {
+    font-size: 10px;
+  }
+  #mirror4cast_clipboard_text {
+    width: 250px;
+  }
+  #mirror4cast_logo {
+    font-size: 110px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .mirror4cast_status_button {
+    font-size: 9px;
+  }
+  #mirror4cast_clipboard_text {
+    width: 220px;
+  }
+  #mirror4cast_logo {
+    font-size: 90px;
+  }
+}
