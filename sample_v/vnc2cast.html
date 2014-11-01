@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Vnc for chromecast - Vnc2cast</title>
+        <title>Vnc to chromecast - Vnc2cast</title>
         <link rel="stylesheet" href="include/base.css" title="plain">
     <style>
       body {
@@ -90,7 +90,7 @@
           var msg = mydata.split(':');
           if(msg[0]=="xmpp" && msg[3] == "connect") {
             document.getElementById('vnc2cast_screen').style.backgroundColor="rgba(0,0,0,0.618)";            
-            corba.connect(msg[4], msg[5], "", "");
+            corba.connect(msg[4], msg[5], msg[6], "");
           }
           if(msg[0]=="xmpp" && msg[3] == "disconnect") {
             document.getElementById('vnc2cast_screen').style.backgroundColor="rgba(0,0,0,0)";            

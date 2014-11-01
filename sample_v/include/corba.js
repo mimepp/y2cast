@@ -25,7 +25,7 @@ var that           = {},  // Public API methods
     // Private CORBA namespace variables
     //
     corba_host       = '',
-    corba_port       = 10300,
+    corba_port       = 5900,
     corba_password   = '',
     corba_path       = '',
 
