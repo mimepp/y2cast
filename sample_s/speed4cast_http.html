@@ -4,6 +4,8 @@
         <title>Speed for chromecast - Speed4cast</title>
     <style>
       body {
+        background-size:1280px 720px;
+        background-repeat: no-repeat;
         font-family: Verdana, Geneva, sans-serif;
         color: #444;
         line-height: 150%;
@@ -27,15 +29,15 @@
     </head>
 
     <body background="images/home_narcissus.jpg" style="margin: 0px;">
+        <div id="prgs" style="float:left; margin-right:150px; margin-top:150px"></div>
+        <div id="msg" style="float:left; margin-left:150px; margin-top:150px"></div>
+
         <div id="speed4cast_screen">
             <canvas id="speed4cast_canvas" width="1280px" height="720px" align="center">
                 Canvas not supported.
             </canvas>
         </div>
 
-        <div id="prgs" style="float:left; margin-right:30px"></div>
-        <div id="msg" style="float:left;"></div>
-    
         <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
         <script>
         /*jslint white: false */
