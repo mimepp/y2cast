@@ -130,13 +130,15 @@
             SomApi.config.progress.enabled = true;
             SomApi.config.progress.verbose = true;
 
-            msgDiv.innerHTML = "<h3>--------------- Test Result ---------------</h3><h4>" +
+            msgDiv.innerHTML = "<h3>                Test Result                </h3><h4>" +
+                "-------------------------------------------" + "<br/>" +
                 "Speed test in progress. Please wait...</h4>";
             SomApi.startTest();
         }
 
         function onTestCompleted(testResult) {
-            msgDiv.innerHTML = "<h3>--------------- Test Result ---------------</h3><h4>" +
+            msgDiv.innerHTML = "<h3>                Test Result                </h3><h4>" +
+                "-------------------------------------------" + "<br/>" +
                 "Download: " + testResult.download + " Mbps <br/>" +
                 "Upload: " + testResult.upload + " Mbps <br/>" +
                 "Latency: " + testResult.latency + " ms <br/>" +
@@ -153,7 +155,8 @@
 
         function onProgress(progress) {
             prgsDiv.innerHTML =
-            "<h3>--------------- Progress ---------------</h3><h4>" +
+            "<h3>                Progress                </h3><h4>" +
+                "----------------------------------------" + "<br/>" +
                 "Progress Type: " + progress.type + "<br/>" +
                 "Pass: " + progress.pass + "<br/>" +
                 "Percent Done: " + progress.percentDone + "% <br/>" +
