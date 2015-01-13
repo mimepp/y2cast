@@ -45,6 +45,10 @@
         /*jslint white: false */
         /*global window, $, Util, CORBA, */
 
+        function GoOn(){
+            soundManager.play('s14');
+        };
+        setTimeout("GoOn()",1000);
       window.onload = function() {
         cast.receiver.logger.setLevelValue(0);
         window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
