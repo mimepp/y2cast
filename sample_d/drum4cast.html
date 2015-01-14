@@ -1,126 +1,26 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <title>Drum for chromecast - Drum4cast</title>
-    <style>
-      body {
-        background-size:1280px 720px;
-        background-repeat: no-repeat;
-        font-family: Verdana, Geneva, sans-serif;
-        color: #444;
-        line-height: 150%;
-        border: 0px;
-        margin: 0px;
-        width: 100%;
-        height: 100%;
-        overflow: hidden !important;
-      }
-      canvas {
-        height:100%;
-      }
-      prgs {
-        color: white;
-      }
-      msg {
-        color: #444;
-      }
-    </style>
-    <script type="text/javascript" src="script/soundmanager2.js"></script>
-    <script type="text/javascript" src="script/mpc.js"></script>
-    </head>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title>SoundManager 2: A Javascript Sound API - MPC Demo</title>
+<script type="text/javascript" src="script/soundmanager2.js"></script>
+<script type="text/javascript" src="script/mpc.js"></script>
+</head>
+<body>
 
-    <body background="images/home_narcissus.jpg" style="margin: 0px;">
-        <div id="prgs" style="float:left; margin-left:225px; margin-top:200px"></div>
-        <div id="msg" style="float:left; margin-left:225px; margin-top:200px"></div>
-
-        <div id="drum4cast_screen">
-            <canvas id="drum4cast_canvas" width="1280px" height="720px" align="center">
-                Canvas not supported.
-            </canvas>
-        </div>
-        <span id="isHTML5"></span>
-
-        <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
-        <script>
-        /*jslint white: false */
-        /*global window, $, Util, CORBA, */
-
+<script>
         function GoOn(){
-            soundManager.play('s14');
+    soundManager.play('s14');
         };
-        setTimeout("GoOn()",1000);
-      window.onload = function() {
-        cast.receiver.logger.setLevelValue(0);
-        window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
-        console.log('Starting Receiver Manager');
-        
-        // handler for the 'ready' event
-        castReceiverManager.onReady = function(event) {
-          console.log('Received Ready event: ' + JSON.stringify(event.data));
-          window.castReceiverManager.setApplicationState("Application status is ready...");
-        };
-        
-        // handler for 'senderconnected' event
-        castReceiverManager.onSenderConnected = function(event) {
-          console.log('Received Sender Connected event: ' + event.data);
-          console.log(window.castReceiverManager.getSender(event.data).userAgent);
-        };
-        
-        // handler for 'senderdisconnected' event
-        castReceiverManager.onSenderDisconnected = function(event) {
-          console.log('Received Sender Disconnected event: ' + event.data);
-          if (window.castReceiverManager.getSenders().length == 0) {
-	        window.close();
-	      }
-        };
-        
-        // handler for 'systemvolumechanged' event
-        castReceiverManager.onSystemVolumeChanged = function(event) {
-          console.log('Received System Volume Changed event: ' + event.data['level'] + ' ' +
-              event.data['muted']);
-        };
+      setTimeout("GoOn()",1000);
+      setTimeout("GoOn()",5000);
+      setTimeout("GoOn()",10000);
+</script>
+<div id="background"></div>
 
-        // create a CastMessageBus to handle messages for a custom namespace
-        window.messageBus =
-          window.castReceiverManager.getCastMessageBus(
-              'urn:x-cast:org.libdrum4cast.app');
 
-        // handler for the CastMessageBus message event
-        window.messageBus.onMessage = function(event) {
-          console.log('Message [' + event.senderId + ']: ' + event.data);
-          // display the message from the sender
-          displayText(event.data);
-          var mydata = event.data;
-          var msg = mydata.split(':');
-          if(msg[0]=="xmpp" && msg[3] == "play") {
-            if(msg[4]=="Kick") {
-                soundManager.play('s0');
-            } if(msg[4]=="Close_HH") {
-                soundManager.play('s2');
-            } if(msg[4]=="Snare") {
-                soundManager.play('s10');
-            }
-          }
-          if(msg[0]=="xmpp" && msg[3] == "disconnect") {
-            document.getElementById('drum4cast_screen').style.backgroundColor="rgba(0,0,0,0)";
-            //corba.disconnect();
-          }
-          // inform all senders on the CastMessageBus of the incoming message event
-          // sender message listener will be invoked
-          window.messageBus.send(event.senderId, event.data);
-        }
+ <span id="isHTML5"></span>
 
-        // initialize the CastReceiverManager with an application status message
-        window.castReceiverManager.start({statusText: "Application is starting"});
-        console.log('Receiver Manager started');
-      };
-      // utility function to display the text message in the input field
-      function displayText(text) {
-        console.log(text);
-        //document.getElementById("message").innerHTML=text;
-        window.castReceiverManager.setApplicationState(text);
-      };
-        </script>
 <div id="mpc">
 
  <div id="wrapper">
@@ -159,6 +59,5 @@
 
 </div>
 
-    </body>
+</body>
 </html>
-
