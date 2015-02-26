@@ -187,6 +187,10 @@
                 console.log("### Cast Receiver Manager is READY: " + JSON.stringify(event));
                 setHudMessage('castReceiverManagerMessage', 'READY: ' + JSON.stringify(event));
                 setHudMessage('applicationState','Loaded. Started. Ready.');
+                if (sessionStorage.getItem('temporaryBugFixedByReloading') !== 'fixed') {
+                    sessionStorage.setItem('temporaryBugFixedByReloading', 'fixed');
+                    document.location.reload();
+                }
             }
 
             /**
