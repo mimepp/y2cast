@@ -28,9 +28,10 @@
     <script src="http://speedof.me/api/api.js" type="text/javascript"></script>
     </head>
 
+
     <body background="images/home_narcissus.jpg" style="margin: 0px;">
         <div id="prgs" style="float:left; margin-left:225px; margin-top:200px"></div>
-        <div id="msg" style="float:left; margin-left:225px; margin-top:200px"></div>
+        <div id="msg" style="float:left; margin-left:100px; margin-top:120px"></div>
 
         <div id="speed4cast_screen">
             <canvas id="speed4cast_canvas" width="1280px" height="720px" align="center">
@@ -92,6 +93,7 @@
           }
           if(msg[0]=="xmpp" && msg[3] == "disconnect") {
             document.getElementById('speed4cast_screen').style.backgroundColor="rgba(0,0,0,0)";
+            btnStopClick();
             //corba.disconnect();
           }
           // inform all senders on the CastMessageBus of the incoming message event
@@ -121,19 +123,10 @@
         var prgsDiv = document.getElementById("prgs");
 
         function btnStartClick() {
-            //set config values
-            SomApi.config.sustainTime = 4;
-            SomApi.config.testServerEnabled = true;
-            SomApi.config.userInfoEnabled = true;
-            SomApi.config.latencyTestEnabled = true;
-            SomApi.config.uploadTestEnabled = true;
-            SomApi.config.progress.enabled = true;
-            SomApi.config.progress.verbose = true;
-
-            msgDiv.innerHTML = "<h3>                Test Result                </h3><h4>" +
-                "-------------------------------------------" + "<br/>" +
-                "Speed test in progress. Please wait...</h4>";
-            SomApi.startTest();
+            msgDiv.innerHTML = "<object data=https://fast.com width=\"640\" height=\"480\"> <embed src=https://fast.com width=\"640\" height=\"480\"> </embed> Error: Embedded data could not be displayed. </object>";
+        }
+        function btnStopClick() {
+            msgDiv.innerHTML = "";
         }
 
         function onTestCompleted(testResult) {
