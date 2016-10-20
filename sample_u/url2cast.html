@@ -29,7 +29,6 @@
 
 
     <body background="images/home_narcissus.jpg" style="margin: 0px;">
-        <div id="prgs" style="float:left; margin-left:225px; margin-top:200px"></div>
         <div id="msg" style="float:left; margin-left:0px; margin-top:0px"></div>
 
         <div id="url2cast_screen">
@@ -85,10 +84,10 @@
           // display the message from the sender
           displayText(event.data);
           var mydata = event.data;
-          var msg = mydata.split(':');
+          var msg = mydata.split('^');
           if(msg[0]=="xmpp" && msg[3] == "connect") {
             document.getElementById('url2cast_screen').style.backgroundColor="rgba(200,200,200,0.382";
-            btnStartClick();
+            btnStartClick(msg[4]);
           }
           if(msg[0]=="xmpp" && msg[3] == "disconnect") {
             document.getElementById('url2cast_screen').style.backgroundColor="rgba(0,0,0,0)";
@@ -114,10 +113,9 @@
     <script type="text/javascript">
 
         var msgDiv = document.getElementById("msg");
-        var prgsDiv = document.getElementById("prgs");
 
-        function btnStartClick() {
-            msgDiv.innerHTML = "<object data=http://www.sohu.com width=\"1280\" height=\"720\"> <embed src=http://www.sohu.com width=\"1280\" height=\"720\"> </embed> Error: Embedded data could not be displayed. </object>";
+        function btnStartClick(myurl) {
+            msgDiv.innerHTML = "<object data=" + myurl + " width=\"1280\" height=\"720\"> <embed src=" + myurl + " width=\"1280\" height=\"720\"> </embed> Error: Embedded data could not be displayed. </object>";
         }
         function btnStopClick() {
             msgDiv.innerHTML = "";
