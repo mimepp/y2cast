@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Speed for chromecast - Speed4cast</title>
+    <style>
+      body {
+        background-size:1280px 720px;
+        background-repeat: no-repeat;
+        font-family: Verdana, Geneva, sans-serif;
+        color: #444;
+        line-height: 150%;
+        border: 0px;
+        margin: 0px;
+        width: 100%;
+        height: 100%;
+        overflow: hidden !important;
+      }
+      canvas {
+        height:100%;
+      }
+      prgs {
+        color: white;
+      }
+      msg {
+        color: #444;
+      }
+    </style>
+    <script src="http://speedof.me/api/api.js" type="text/javascript"></script>
+    </head>
+
+
+    <body background="images/home_narcissus.jpg" style="margin: 0px;">
+        <div id="prgs" style="float:left; margin-left:225px; margin-top:200px"></div>
+        <div id="msg" style="float:left; margin-left:100px; margin-top:120px"></div>
+
+        <div id="speed4cast_screen">
+            <canvas id="speed4cast_canvas" width="1280px" height="720px" align="center">
+                Canvas not supported.
+            </canvas>
+        </div>
+
+        <script type="text/javascript" src="//www.gstatic.com/cast/sdk/libs/receiver/2.0.0/cast_receiver.js"></script>
+        <script>
+        /*jslint white: false */
+        /*global window, $, Util, CORBA, */
+
+      window.onload = function() {
+        cast.receiver.logger.setLevelValue(0);
+        window.castReceiverManager = cast.receiver.CastReceiverManager.getInstance();
+        console.log('Starting Receiver Manager');
+        
+        // handler for the 'ready' event
+        castReceiverManager.onReady = function(event) {
+          console.log('Received Ready event: ' + JSON.stringify(event.data));
+          window.castReceiverManager.setApplicationState("Application status is ready...");
+        };
+        
+        // handler for 'senderconnected' event
+        castReceiverManager.onSenderConnected = function(event) {
+          console.log('Received Sender Connected event: ' + event.data);
+          console.log(window.castReceiverManager.getSender(event.data).userAgent);
+        };
+        
+        // handler for 'senderdisconnected' event
+        castReceiverManager.onSenderDisconnected = function(event) {
+          console.log('Received Sender Disconnected event: ' + event.data);
+          if (window.castReceiverManager.getSenders().length == 0) {
+	        window.close();
+	      }
+        };
+        
+        // handler for 'systemvolumechanged' event
+        castReceiverManager.onSystemVolumeChanged = function(event) {
+          console.log('Received System Volume Changed event: ' + event.data['level'] + ' ' +
+              event.data['muted']);
+        };
+
+        // create a CastMessageBus to handle messages for a custom namespace
+        window.messageBus =
+          window.castReceiverManager.getCastMessageBus(
+              'urn:x-cast:org.libspeed4cast.app');
+
+        // handler for the CastMessageBus message event
+        window.messageBus.onMessage = function(event) {
+          console.log('Message [' + event.senderId + ']: ' + event.data);
+          // display the message from the sender
+          displayText(event.data);
+          var mydata = event.data;
+          var msg = mydata.split(':');
+          if(msg[0]=="xmpp" && msg[3] == "connect") {
+            document.getElementById('speed4cast_screen').style.backgroundColor="rgba(200,200,200,0.382";
+            btnStartClick();
+          }
+          if(msg[0]=="xmpp" && msg[3] == "disconnect") {
+            document.getElementById('speed4cast_screen').style.backgroundColor="rgba(0,0,0,0)";
+            btnStopClick();
+            //corba.disconnect();
+          }
+          // inform all senders on the CastMessageBus of the incoming message event
+          // sender message listener will be invoked
+          window.messageBus.send(event.senderId, event.data);
+        }
+
+        // initialize the CastReceiverManager with an application status message
+        window.castReceiverManager.start({statusText: "Application is starting"});
+        console.log('Receiver Manager started');
+      };
+      // utility function to display the text message in the input field
+      function displayText(text) {
+        console.log(text);
+        //document.getElementById("message").innerHTML=text;
+        window.castReceiverManager.setApplicationState(text);
+      };
+        </script>
+    <script type="text/javascript">
+        SomApi.account = "SOM53cc33bbba2df";  //your API Key here
+        SomApi.domainName = "mimepp.github.io";     //your domain or sub-domain here
+        SomApi.onTestCompleted = onTestCompleted;
+        SomApi.onError = onError;
+        SomApi.onProgress = onProgress;
+
+        var msgDiv = document.getElementById("msg");
+        var prgsDiv = document.getElementById("prgs");
+
+        function btnStartClick() {
+            msgDiv.innerHTML = "<object data=https://fast.com width=\"640\" height=\"480\"> <embed src=https://fast.com width=\"640\" height=\"480\"> </embed> Error: Embedded data could not be displayed. </object>";
+        }
+        function btnStopClick() {
+            msgDiv.innerHTML = "";
+        }
+
+        function onTestCompleted(testResult) {
+            msgDiv.innerHTML = "<h3>                Test Result                </h3><h4>" +
+                "-------------------------------------------" + "<br/>" +
+                "Download: " + testResult.download + " Mbps <br/>" +
+                "Upload: " + testResult.upload + " Mbps <br/>" +
+                "Latency: " + testResult.latency + " ms <br/>" +
+                "Jitter: " + testResult.jitter + " ms <br/>" +
+                "Test Server: " + testResult.testServer + "<br/>" +
+                "IP: " + testResult.ip_address + "<br/>" +
+                "Hostname: " + testResult.hostname + "<br/>" +
+            "</h4>";
+        }
+
+        function onError(error) {
+            msgDiv.innerHTML = "Error " + error.code + ": " + error.message;
+        }
+
+        function onProgress(progress) {
+            prgsDiv.innerHTML =
+            "<h3>                Progress                </h3><h4>" +
+                "----------------------------------------" + "<br/>" +
+                "Progress Type: " + progress.type + "<br/>" +
+                "Pass: " + progress.pass + "<br/>" +
+                "Percent Done: " + progress.percentDone + "% <br/>" +
+                "Current Speed: " + progress.currentSpeed + " Mbps <br/>" +
+            "</h4>";
+        }
+      //setTimeout("btnStartClick()",1000);
+    </script>
+    <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <!-- my_receiver_html_page -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-1772212459919533"
+         data-ad-slot="8910315603"
+         data-ad-format="auto"></ins>
+    <script>
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    </body>
+</html>
+
