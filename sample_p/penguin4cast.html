@@ -71,13 +71,18 @@
           displayText(event.data);
           var mydata = event.data;
           var msg = mydata.split('^');
+          if(msg[0]=="xmpp" && msg[3] == "click") {
+            document.getElementById('gameCanvas').style.backgroundColor="rgba(200,200,200,0.382";
+            btnStartClick(msg[4]);
+          }
           if(msg[0]=="xmpp" && msg[3] == "connect") {
             document.getElementById('gameCanvas').style.backgroundColor="rgba(200,200,200,0.382";
             btnStartClick(msg[4]);
           }
           if(msg[0]=="xmpp" && msg[3] == "disconnect") {
             document.getElementById('gameCanvas').style.backgroundColor="rgba(0,0,0,0)";
-            btnStopClick();
+            //btnStopClick();
+            btnStartClick(msg[4]);
             //corba.disconnect();
           }
           // inform all senders on the CastMessageBus of the incoming message event
@@ -99,6 +104,10 @@
     <script type="text/javascript">
 
         function btnStartClick(myurl) {
+            cc.log("btnStartClick ... ");
+            var event = new cc.EventCustom("game_custom_click");
+            event.setUserData("btnStartClick");
+            cc.eventManager.dispatchEvent(event);
         }
         function btnStopClick() {
         }
