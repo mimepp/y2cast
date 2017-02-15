@@ -59,7 +59,7 @@
 			});			
 		});
 
-            var ws = new WebSocket("ws://localhost:8008/receiver");
+            var ws = new WebSocket("ws://localhost:33401/receiver");
 
             ws.onmessage = function (e) {
 	        var video = document.getElementById('video1');
@@ -90,9 +90,9 @@
 	<body background="images/home_lavender.jpg">
         <div id="idle_container" style="display: none;">
             <div id="idle_top">
-                <h3>Ready to cast.</h3>
+                <h3>xCat is ready</h3>
             </div>
         </div>
-		<iframe id="cast" style="width: 100%; height:100%;"/>
+		<iframe id="xcat" style="width: 100%; height:100%;"/>
 	</body>
 <html>
