@@ -85,6 +85,27 @@
                     video.currentTime = cmd.pos;
                 }
             };
+        function getVideoStatus() {
+	    var video = document.getElementById('video1');
+            var position = video.currentTime * 1000;
+            ws.send(JSON.stringify({
+                cmd: "current_position",
+                value: position
+            }));
+            console.log('current pos: %d', position);
+
+            var duration = video.duration * 1000;
+            if(isNaN(video.duration)) {
+                duration = 0;
+            }
+            ws.send(JSON.stringify({
+                cmd: "duration",
+                value: duration
+            }));
+            console.log('duration: %d', duration);
+            setTimeout("getVideoStatus()",500);
+        }
+        setTimeout("getVideoStatus()",500);
         </script>
 	</head>
 	<body background="images/home_lavender.jpg">
