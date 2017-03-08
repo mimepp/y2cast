@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Mirror for xCat - Mirror4xcat</title>
+        <link rel="stylesheet" href="include/base.css" title="plain">
+    <style>
+      body {
+        background-size:100% 100%;
+        font-family: Verdana, Geneva, sans-serif;
+        color: #444;
+        line-height: 150%;
+        border: 0px;
+        margin: 0px;
+        width: 100%;
+        height: 100%;
+        overflow: hidden !important;
+      }
+      canvas {
+        height:100%;
+      }
+    </style>
+        <script src="include/mirror4xcat.js"></script>
+    </head>
+
+    <body style="margin: 0px;">
+        <div id="mirror4xcat_screen">
+            <canvas id="mirror4xcat_canvas" width="640px" height="20px" align="right">
+                Canvas not supported.
+            </canvas>
+        </div>
+	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.3.min.js"></script>
+	<script type="text/javascript" src="js/jquery.cycle.all.2.74.js"></script>
+        <script>
+        /*jslint white: false */
+        /*global window, $, Util, CORBA, */
+
+            var ws = new WebSocket("ws://localhost:33401/receiver");
+
+            ws.onmessage = function (e) {
+                var msg = $.parseJSON(e.data);
+                console.log('msg: %s, cmd: %s', msg, msg.cmd);
+
+                if(msg.cmd == "customer_msg") {
+                    console.log('namespace: %s, payload: %s', msg.cust_namespace, msg.cust_payload);
+                    if("urn:x-xcat:org.libmirror4xcat.app" == msg.cust_namespace) {
+                        var mydata = msg.cust_payload;
+                        var msg = mydata.split(':');
+                        if(msg[0]=="xmpp" && msg[3] == "connect") {
+                            document.getElementById('mirror4xcat_screen').style.backgroundColor="rgba(0,0,0,0.618)";
+                            corba.connect(msg[4], msg[5], "", "");
+                        }
+                        if(msg[0]=="xmpp" && msg[3] == "disconnect") {
+                            document.getElementById('mirror4xcat_screen').style.backgroundColor="rgba(0,0,0,0)";
+                            corba.disconnect();
+                        }
+                    }
+                }
+            };
+
+        var corba;
+
+        function GoOn(){
+            document.getElementById('mirror4xcat_screen').style.backgroundColor="rgba(0,0,0,0.618)";
+            corba.connect("192.168.1.3", "10301", "", "");
+        };
+        function DownIt(){
+            document.getElementById('mirror4xcat_screen').style.backgroundColor="rgba(0,0,0,0)";
+            corba.disconnect();
+        };
+      window.onload = function() {
+        corba = new CORBA({'target':       $D('mirror4xcat_canvas'),
+                       'encrypt':      WebUtil.getQueryVar('encrypt', false)});
+        console.log('Starting Receiver Now');
+      };
+      //setTimeout("GoOn()",1000);
+      //setTimeout("DownIt()",10000);
+        </script>
+    </body>
+</html>
+
