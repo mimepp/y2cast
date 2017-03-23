@@ -67,24 +67,32 @@
                 var cmd = $.parseJSON(e.data);
 
                 if(cmd.cmd == "seturi") {
-                    console.log('get cmd: seturi, %s', cmd.url);
+                    console.log('get cmd: seturi, %s' + cmd.url);
                     sources[0].src = cmd.url;
                     video.load();
                 } else if(cmd.cmd == "play") {
                     console.log('get cmd: play');
                     if (video.paused) {
                         video.play();
+                        hidebg();
                     }
                 } else if(cmd.cmd == "pause") {
                     console.log('get cmd: pause');
                     if (video.played) {
                         video.pause();
+                        //showbg();
                     }
                 } else if(cmd.cmd == "seek") {
-                    console.log('get cmd: seek, pos: %d', cmd.pos);
+                    console.log('get cmd: seek, pos: %d' + cmd.pos);
                     video.currentTime = cmd.pos;
                 }
             };
+        function hidebg() {
+            document.body.style.background="none";
+        }
+        function showbg() {
+            document.body.style.background="url(images/home_lavender.jpg)";
+        }
         function getVideoStatus() {
 	    var video = document.getElementById('video1');
             var position = video.currentTime * 1000;
@@ -92,7 +100,7 @@
                 cmd: "current_position",
                 value: position
             }));
-            console.log('current pos: %d', position);
+            console.log('current pos: %d' + position);
 
             var duration = video.duration * 1000;
             if(isNaN(video.duration)) {
@@ -102,7 +110,7 @@
                 cmd: "duration",
                 value: duration
             }));
-            console.log('duration: %d', duration);
+            console.log('duration: %d' + duration);
             setTimeout("getVideoStatus()",500);
         }
         setTimeout("getVideoStatus()",500);
